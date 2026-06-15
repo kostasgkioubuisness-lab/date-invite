@@ -97,7 +97,7 @@ select:focus,input:focus{outline:none;border-color:var(--p);box-shadow:0 0 12px 
     <p>Λοιπόν... θα βγεις ραντεβού μαζί μου; 🥺👉👈</p>
     <div class="btns">
       <button class="yes" onclick="yes(event)">ΝΑΙ! 💖</button>
-      <button class="no" id="noBtn" onclick="dodge(event)" onmouseover="dodge(event)">Όχι</button>
+      <button class="no" id="noBtn" onclick="dodge(event)">Όχι</button>
     </div>
   </div>
 
@@ -190,16 +190,19 @@ function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remov
 document.getElementById('screen'+n).classList.add('active');}
 function yes(ev){chime();confetti();emojiBurst(ev.clientX||innerWidth/2,ev.clientY||innerHeight/2);go(2);}
 
-/* playful "No" — taunts, shrinks, then gives up */
+/* playful "No" — 1st touch stays & taunts, then dodges nearby (always on-screen), finally gives up */
 const taunts=['Όχι','σίγουρα;','σκέψου το 🤨','αμ;','πιάσε με 😏','έλα μωρέ','τελευταία ευκαιρία'];
 let noStep=0;
-function dodge(ev){pop();noStep++;const b=document.getElementById('noBtn');
-if(noStep>=7){b.textContent='καλά, ΝΑΙ τότε 😏';b.style.position='static';b.style.transform='scale(.95)';
-b.onclick=yes;b.onmouseover=null;if(ev)ev.preventDefault();return;}
-b.textContent=taunts[noStep];const sc=Math.max(.5,1-noStep*.08);b.style.transform=`scale(${sc})`;
-const W=92,Hh=50;b.style.position='fixed';b.style.zIndex='4';
-b.style.left=(8+Math.random()*Math.max(0,innerWidth-W-16))+'px';
-b.style.top=(8+Math.random()*Math.max(0,innerHeight-Hh-16))+'px';if(ev)ev.preventDefault();}
+function dodge(ev){if(ev)ev.preventDefault();pop();
+const b=document.getElementById('noBtn');noStep++;
+if(noStep>=7){b.textContent='καλά, ΝΑΙ τότε 😏';b.style.position='static';b.style.left='';b.style.top='';
+b.style.transform='scale(.95)';b.onclick=yes;return;}
+b.textContent=taunts[noStep];const sc=Math.max(.5,1-noStep*.08);
+if(noStep===1){b.style.transform=`scale(${sc})`;return;} /* first touch: stay put */
+const W=b.offsetWidth||92,Hh=b.offsetHeight||50,m=10,r=b.getBoundingClientRect();
+let nx=r.left+(Math.random()*220-110),ny=r.top+(Math.random()*220-110);
+nx=Math.max(m,Math.min(nx,innerWidth-W-m));ny=Math.max(m,Math.min(ny,innerHeight-Hh-m));
+b.style.position='fixed';b.style.zIndex='7';b.style.left=nx+'px';b.style.top=ny+'px';b.style.transform=`scale(${sc})`;}
 
 /* ---------- submit + countdown + ics ---------- */
 let chosen={a:'',d:'',t:''};
