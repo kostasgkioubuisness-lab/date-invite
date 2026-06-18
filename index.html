@@ -11,7 +11,7 @@ html,body{height:100%;font-family:'Nunito',system-ui,sans-serif;}
 
 body{
   min-height:100svh;
-  background:linear-gradient(145deg,#ffd6e7 0%,#ffb3cc 40%,#ff85b3 100%);
+  background:linear-gradient(145deg,#ffe8f3 0%,#ffc2e0 40%,#ffaacc 100%);
   display:flex;align-items:center;justify-content:center;
   padding:20px;
   position:relative;
@@ -54,7 +54,7 @@ body{
 .bigheart{font-size:68px;display:block;line-height:1.1;animation:beat 1.3s ease-in-out infinite;}
 @keyframes beat{0%,100%{transform:scale(1);}40%{transform:scale(1.2);}}
 .tag{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#e05580;font-weight:800;margin:10px 0 5px;}
-h1{font-size:clamp(26px,7.5vw,34px);font-weight:900;color:#b8003a;line-height:1.15;margin-bottom:8px;}
+h1{font-size:clamp(26px,7.5vw,34px);font-weight:900;color:#c2477a;line-height:1.15;margin-bottom:8px;}
 .sub{font-size:15px;color:#aaa;line-height:1.5;}
 
 /* YES button */
@@ -62,26 +62,23 @@ h1{font-size:clamp(26px,7.5vw,34px);font-weight:900;color:#b8003a;line-height:1.
   display:block;width:100%;margin-top:22px;padding:17px;
   border:none;border-radius:999px;cursor:pointer;
   font-family:'Nunito',sans-serif;font-weight:900;font-size:19px;color:#fff;
-  background:linear-gradient(135deg,#ff3d7f 0%,#ff85b3 100%);
-  box-shadow:0 6px 24px rgba(255,61,127,.45),0 2px 6px rgba(255,61,127,.3);
+  background:linear-gradient(135deg,#f06292 0%,#f48fb1 100%);
+  box-shadow:0 6px 24px rgba(240,98,146,.5),0 2px 6px rgba(240,98,146,.3);
   letter-spacing:.02em;
   transition:transform .15s,box-shadow .15s;
 }
-.btn-yes:active{transform:scale(.96);box-shadow:0 3px 12px rgba(255,61,127,.35);}
+.btn-yes:active{transform:scale(.96);}
 
 /* NO button */
 .btn-no{
-  display:inline-block;margin-top:13px;
+  position:fixed;z-index:50;
   padding:11px 26px;
-  border:2.5px solid #ffb3cc;border-radius:999px;
+  border:2.5px solid #f8bbd0;border-radius:999px;
   background:#fff;
-  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#ffb3cc;
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#f8bbd0;
   cursor:pointer;
-  transition:border-color .2s,color .2s;
+  /* no transition — instant move so it's always unreachable */
 }
-.btn-no:hover{border-color:#ff85b3;color:#ff85b3;}
-.btn-no.free{position:fixed;z-index:50;margin:0;
-  transition:left .22s cubic-bezier(.34,1.56,.64,1),top .22s cubic-bezier(.34,1.56,.64,1);}
 
 /* form */
 .field{margin-top:14px;text-align:left;}
@@ -94,7 +91,7 @@ h1{font-size:clamp(26px,7.5vw,34px);font-weight:900;color:#b8003a;line-height:1.
   -webkit-appearance:none;appearance:none;
   transition:border-color .2s;
 }
-.inp:focus{outline:none;border-color:#ff3d7f;}
+.inp:focus{outline:none;border-color:#f06292;}
 select.inp{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none' stroke='%23ff3d7f' stroke-width='2.5'%3E%3Cpath d='M2 4l4.5 4.5L11 4'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 13px center;padding-right:36px;
@@ -105,7 +102,7 @@ select.inp option{background:#fff;color:#333;}
 #toast{
   position:fixed;bottom:22px;left:50%;
   transform:translateX(-50%) translateY(80px);
-  background:#ff3d7f;color:#fff;
+  background:#f06292;color:#fff;
   padding:11px 20px;border-radius:14px;
   font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;
   z-index:99;box-shadow:0 4px 18px rgba(255,61,127,.4);
@@ -117,7 +114,7 @@ select.inp option{background:#fff;color:#333;}
 /* countdown */
 .cdg{display:flex;gap:7px;margin:16px 0 8px;}
 .cdc{flex:1;background:#fff8fb;border:2.5px solid #ffcce0;border-radius:14px;padding:12px 4px;}
-.cdn{font-size:clamp(18px,6vw,26px);font-weight:900;color:#ff3d7f;line-height:1;}
+.cdn{font-size:clamp(18px,6vw,26px);font-weight:900;color:#f06292;line-height:1;}
 .cdu{font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:#ddd;margin-top:6px;}
 .chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:13px 0 4px;}
 .chip{
@@ -130,10 +127,10 @@ select.inp option{background:#fff;color:#333;}
   display:block;width:100%;margin-top:16px;padding:14px;
   border:2.5px solid #ffcce0;border-radius:999px;
   background:#fff8fb;
-  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#ff3d7f;
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#f06292;
   cursor:pointer;transition:border-color .2s;
 }
-.btn-ics:hover{border-color:#ff3d7f;}
+.btn-ics:hover{border-color:#f06292;}
 .btn-ics:active{transform:scale(.97);}
 
 /* emoji pop */
@@ -258,6 +255,7 @@ function fxE(e,n){fx(e&&e.clientX?e.clientX:window.innerWidth/2,e&&e.clientY?e.c
 function go(id){
   document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('on');});
   document.getElementById(id).classList.add('on');
+  if(id==='s2'){setTimeout(placeNoBtn,50);}
 }
 
 /* toast */
@@ -272,32 +270,55 @@ document.getElementById('btn1').addEventListener('click',function(e){
 
 /* S2 */
 var noBtn=document.getElementById('noBtn'),yesBtn=document.getElementById('yesBtn');
-var taunts=['Σοβαρά; 😂','σίγουρα;','πιάσε με! 😏','δεν μπορείς','έλα ρε τώρα','ΟΚ όπως θες 😇','...ναι τελικά 😅'];
-var noTaps=0,noFree=false;
+var noGiven=false,catchCount=0;
+var taunts=['Όχι','πιάσε με 😏','σίγουρα;','αδύνατον 😂','έλα τώρα','ξέρεις ότι θες','...ναι ντε 😅'];
 
-yesBtn.addEventListener('click',function(e){hap(14);chime();fxE(e,16);setTimeout(function(){go('s3');setMin();},180);});
+/* place noBtn in the middle-bottom of screen when S2 activates */
+function placeNoBtn(){
+  var bw=noBtn.offsetWidth||110,bh=noBtn.offsetHeight||44;
+  noBtn.style.left=Math.round((window.innerWidth-bw)/2)+'px';
+  noBtn.style.top=Math.round(window.innerHeight*0.72)+'px';
+}
 
+/* real-time flee from pointer/finger */
+var px=-999,py=-999,rafPending=false,FLEE=120;
+function flee(){
+  rafPending=false;
+  if(noGiven)return;
+  var r=noBtn.getBoundingClientRect();
+  var bx=r.left+r.width/2,by=r.top+r.height/2;
+  var dx=bx-px,dy=by-py,dist=Math.sqrt(dx*dx+dy*dy);
+  if(dist<FLEE){
+    var push=FLEE-dist+70,nx,ny;
+    if(dist<2){nx=r.left+(Math.random()>0.5?120:-120);ny=r.top+(Math.random()>0.5?80:-80);}
+    else{nx=r.left+dx/dist*push;ny=r.top+dy/dist*push;}
+    nx=Math.max(10,Math.min(window.innerWidth-r.width-10,nx));
+    ny=Math.max(10,Math.min(window.innerHeight-r.height-10,ny));
+    noBtn.style.left=nx+'px';noBtn.style.top=ny+'px';
+    noBtn.textContent=taunts[Math.min(catchCount,taunts.length-1)];
+  }
+}
+function onPointer(x,y){px=x;py=y;if(!rafPending&&!noGiven){rafPending=true;requestAnimationFrame(flee);}}
+window.addEventListener('pointermove',function(e){onPointer(e.clientX,e.clientY);},{passive:true});
+window.addEventListener('touchmove',function(e){if(e.touches[0])onPointer(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+
+/* if she somehow taps it, give up after 8 catches */
 noBtn.addEventListener('click',function(e){
-  e.preventDefault();noTaps++;hap(8);blip(280,.08);
-  if(noTaps>=7){
-    noBtn.textContent='...ναι τελικά 😅';
-    noBtn.style.background='linear-gradient(135deg,#ff3d7f,#ff85b3)';
+  e.preventDefault();if(noGiven)return;
+  catchCount++;hap(6);blip(260,.07);
+  noBtn.textContent=taunts[Math.min(catchCount,taunts.length-1)];
+  if(catchCount>=8){
+    noGiven=true;
+    noBtn.textContent='...ναι ντε 😅';
+    noBtn.style.background='linear-gradient(135deg,#f06292,#f48fb1)';
     noBtn.style.color='#fff';noBtn.style.borderColor='transparent';
     noBtn.onclick=function(ev){hap(14);chime();fxE(ev,16);setTimeout(function(){go('s3');setMin();},180);};
-    return;
   }
-  noBtn.textContent=taunts[Math.min(noTaps,taunts.length-1)];
-  if(noTaps===1){noBtn.style.fontSize='12px';return;}
-  if(!noFree){
-    var r=noBtn.getBoundingClientRect();
-    noFree=true;noBtn.classList.add('free');
-    noBtn.style.left=r.left+'px';noBtn.style.top=r.top+'px';noBtn.style.width=r.width+'px';
-  }
-  var r2=noBtn.getBoundingClientRect();
-  var nx=r2.left+(Math.random()*200-100);
-  var ny=r2.top+(Math.random()*200-100);
-  noBtn.style.left=Math.max(10,Math.min(window.innerWidth-r2.width-10,nx))+'px';
-  noBtn.style.top=Math.max(10,Math.min(window.innerHeight-r2.height-10,ny))+'px';
+});
+
+yesBtn.addEventListener('click',function(e){
+  noGiven=true;hap(14);chime();fxE(e,16);
+  setTimeout(function(){go('s3');setMin();},180);
 });
 
 /* S3 */
