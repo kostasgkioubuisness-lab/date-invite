@@ -208,8 +208,16 @@ b.style.position='fixed';b.style.zIndex='7';b.style.left=nx+'px';b.style.top=ny+
 let chosen={a:'',d:'',t:''};
 function submitChoice(ev){const a=activity.value,d=date.value,t=time.value;
 if(!d||!t){beep(200,.2,'sawtooth');alert('Έλα ντε, βάλε μέρα και ώρα! 😅');return;}
-chosen={a,d,t};chime();confetti();emojiBurst(ev.clientX||innerWidth/2,ev.clientY||innerHeight/2);
+chosen={a,d,t};sendAnswers(a,d,t);chime();confetti();emojiBurst(ev.clientX||innerWidth/2,ev.clientY||innerHeight/2);
 go(3);typeOut(`${a}\n📅 ${d}\n⏰ ${t}\n\nΑνυπομονώ ήδη... 💞`);startCountdown();}
+
+/* email me her answers (FormSubmit, no backend) — fire & forget, never blocks the UX */
+function sendAnswers(a,d,t){try{
+fetch('https://formsubmit.co/ajax/ntinosgkiou@gmail.com',{
+method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+body:JSON.stringify({_subject:'💖 Είπε ΝΑΙ! Οι απαντήσεις της',_captcha:'false',_template:'table',
+'Δραστηριότητα':a,'Μέρα':d,'Ώρα':t})}).catch(function(){});
+}catch(e){}}
 
 function typeOut(txt){const el=document.getElementById('summary');el.innerHTML='';let i=0;
 (function tick(){if(i<txt.length){const ch=txt[i++];el.innerHTML+=ch==='\n'?'<br>':ch;
