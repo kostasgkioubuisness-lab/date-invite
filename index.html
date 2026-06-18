@@ -93,12 +93,14 @@ h1{font-size:clamp(26px,7.5vw,34px);font-weight:900;color:#c2477a;line-height:1.
 .btn-yes:active{transform:scale(.96);}
 
 .btn-no{
-  position:fixed;z-index:99;
+  flex:1;padding:18px 0;border-radius:20px;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;
+  background:#fff;border:3px solid #f06292;color:#f06292;
+}
+.btn-no.fleeing{
+  position:fixed;z-index:99;border:3px solid #f06292;background:#fff;color:#f06292;
+  font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;cursor:pointer;
   padding:18px 28px;border-radius:20px;
-  border:3px solid #f8bbd0;background:#fff;
-  font-family:'Nunito',sans-serif;font-weight:900;font-size:22px;color:#f8bbd0;
-  cursor:pointer;
-  /* NO transition — instant escape */
 }
 
 /* ===== FORM (S3) ===== */
@@ -177,14 +179,10 @@ select.inp option{background:#fff;}
     <p class="sub">Ξέρεις ότι θες. Μην κάνεις τώρα 😏</p>
     <div class="two-btns">
       <button class="btn-yes" id="yesBtn">ΝΑΙ 💖</button>
-      <div style="flex:1;position:relative;"><!-- placeholder so YES stays full width -->
-      </div>
+      <button class="btn-no" id="noBtn">ΌΧΙ</button>
     </div>
   </div>
 </div>
-
-<!-- NO button — outside card, position:fixed, managed by JS -->
-<button class="btn-no" id="noBtn">ΌΧΙ</button>
 
 <!-- S3: choices -->
 <div class="screen" id="s3">
@@ -243,16 +241,15 @@ function fxE(e,n){fx(e&&e.clientX?e.clientX:window.innerWidth/2,e&&e.clientY?e.c
 
 /* ── screen switch ── */
 var noBtn=document.getElementById('noBtn');
-noBtn.style.display='none'; // hidden until S2
 
 function go(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
   document.getElementById(id).classList.add('on');
-  if(id==='s2'){
-    noBtn.style.display='block';
-    setTimeout(resetNoBtn,60);
-  } else {
-    noBtn.style.display='none';
+  if(id!=='s2'){
+    /* reset NO btn back to static for next time */
+    noBtn.classList.remove('fleeing');
+    noBtn.style.left='';noBtn.style.top='';noBtn.style.width='';noBtn.style.height='';
+    isFleeing=false;
   }
 }
 
@@ -272,33 +269,37 @@ envWrap.addEventListener('click',function(e){
   setTimeout(function(){go('s2');},700);
 });
 
-/* ── S2: NO button real-time flee ── */
-var noGiven=false,catchCount=0;
+/* ── S2: NO button flee ── */
+var noGiven=false,catchCount=0,isFleeing=false;
 var taunts=['ΌΧΙ','πιάσε με 😏','αδύνατον!','δεν μπορείς','έλα τώρα','ξέρεις ότι θες','...ναι ντε 😅'];
-
-function resetNoBtn(){
-  var bw=noBtn.offsetWidth||100,bh=noBtn.offsetHeight||56;
-  /* start bottom-right area */
-  noBtn.style.left=Math.round(window.innerWidth*0.65-bw/2)+'px';
-  noBtn.style.top=Math.round(window.innerHeight*0.7-bh/2)+'px';
-}
-
 var ptrX=window.innerWidth/2, ptrY=window.innerHeight/2;
 var rafPending=false;
-var FLEE_DIST=130; /* flee radius in px */
+var FLEE_DIST=140;
+
+function startFleeing(){
+  if(isFleeing)return;
+  isFleeing=true;
+  var r=noBtn.getBoundingClientRect();
+  /* lock in current size before switching to fixed */
+  noBtn.style.width=r.width+'px';
+  noBtn.style.height=r.height+'px';
+  noBtn.classList.add('fleeing');
+  noBtn.style.left=r.left+'px';
+  noBtn.style.top=r.top+'px';
+}
 
 function fleeStep(){
   rafPending=false;
-  if(noGiven||noBtn.style.display==='none')return;
+  if(noGiven)return;
   var r=noBtn.getBoundingClientRect();
   var bx=r.left+r.width/2, by=r.top+r.height/2;
   var dx=bx-ptrX, dy=by-ptrY;
   var dist=Math.sqrt(dx*dx+dy*dy);
   if(dist<FLEE_DIST){
-    var push=(FLEE_DIST-dist)+80;
+    if(!isFleeing)startFleeing();
+    var push=(FLEE_DIST-dist)+90;
     var nx,ny;
     if(dist<4){
-      /* pointer exactly on center — escape in random direction */
       var ang=Math.random()*6.28;
       nx=r.left+Math.cos(ang)*push;
       ny=r.top+Math.sin(ang)*push;
@@ -306,7 +307,6 @@ function fleeStep(){
       nx=r.left+(dx/dist)*push;
       ny=r.top+(dy/dist)*push;
     }
-    /* clamp to viewport */
     nx=Math.max(10,Math.min(window.innerWidth-r.width-10,nx));
     ny=Math.max(10,Math.min(window.innerHeight-r.height-10,ny));
     noBtn.style.left=nx+'px';
@@ -324,19 +324,18 @@ window.addEventListener('touchmove',function(e){
   if(e.touches[0])onMove(e.touches[0].clientX,e.touches[0].clientY);
 },{passive:true});
 
-/* if she somehow catches it */
 noBtn.addEventListener('click',function(e){
   e.preventDefault();if(noGiven)return;
   catchCount++;hap(6);blip(260,.07);
   noBtn.textContent=taunts[Math.min(catchCount,taunts.length-1)];
   if(catchCount>=7){
-    noGiven=true;noBtn.style.display='none';
+    noGiven=true;
     document.getElementById('yesBtn').click();
   }
 });
 
 document.getElementById('yesBtn').addEventListener('click',function(e){
-  noGiven=true;noBtn.style.display='none';
+  noGiven=true;
   hap(14);chime();fxE(e,16);
   setTimeout(function(){go('s3');setMin();},180);
 });
